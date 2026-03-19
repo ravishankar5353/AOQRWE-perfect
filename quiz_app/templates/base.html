@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOQRWE - Online Quiz Platform</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        .navbar {
+            background-color: #1e293b !important;
+        }
+        .glass-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+    </style>
+    <!-- html2pdf for rendering results as PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Chart.js for admin dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2" href="{{ url_for('landing') }}">
+            <i class="bi bi-mortarboard-fill text-info"></i> AOQRWE
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-toggle="target" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-center gap-2">
+            {% if session.get('admin') %}
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('admin_dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('admin_subjects') }}"><i class="bi bi-book"></i> Subjects</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('admin_questions') }}"><i class="bi bi-ui-checks"></i> Questions</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('admin_students') }}"><i class="bi bi-people"></i> Students</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('admin_results') }}"><i class="bi bi-bar-chart"></i> Results</a></li>
+                <li class="nav-item ms-lg-3"><a class="btn btn-danger btn-sm rounded-pill px-3 fw-bold" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            {% elif session.get('student') %}
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('quiz_intro') }}"><i class="bi bi-house"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link fw-medium" href="{{ url_for('leaderboard') }}"><i class="bi bi-trophy"></i> Leaderboard</a></li>
+                <li class="nav-item ms-lg-3"><a class="btn btn-danger btn-sm rounded-pill px-3 fw-bold" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            {% else %}
+                {% if request.endpoint != 'login' %}
+                <li class="nav-item"><a class="btn btn-outline-light rounded-pill px-4 fw-medium" href="{{ url_for('login') }}"><i class="bi bi-door-open"></i> Sign In / Login</a></li>
+                {% endif %}
+                {% if request.endpoint != 'register' %}
+                <li class="nav-item"><a class="btn btn-info text-white rounded-pill px-4 fw-medium" href="{{ url_for('register') }}"><i class="bi bi-person-plus"></i> Register</a></li>
+                {% endif %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show fade-in shadow-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

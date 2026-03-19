@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5 fade-in">
+    <div class="col-md-6">
+        <div id="resultCard" class="card glass-card p-5 text-center shadow-lg border-0">
+            <h3 class="fw-bold text-dark mb-2">Exam Result</h3>
+            <span class="badge bg-primary mb-4 p-2 fs-6">{{ result.subject_name }}</span>
+            <div class="my-4">
+                <h1 class="display-1 fw-bold {% if result.percentage >= 50 %}text-success{% else %}text-danger{% endif %}">
+                    {{ result.percentage | round(2) }}%
+                </h1>
+                <p class="fs-4 text-muted mt-2 fw-bold">Score: {{ result.score }} / {{ result.total }}</p>
+                <h3 class="fw-bold text-warning">Grade: {{ result.grade }}</h3>
+            </div>
+            <p class="text-muted"><small>Exam taken by {{ result.student_name }} on {{ result.exam_date }}</small></p>
+        </div>
+        
+        <div class="text-center mt-4 d-flex justify-content-center gap-3 flex-wrap">
+            <button onclick="downloadPDF()" class="btn btn-info btn-lg px-4 rounded-pill shadow-sm text-white fw-bold">
+                📄 Export PDF
+            </button>
+            <a href="{{ url_for('review', result_id=result.id) }}" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm fw-bold">
+                🔍 Review Exam
+            </a>
+            <a href="{{ url_for('quiz_intro') }}" class="btn btn-dark btn-lg px-4 rounded-pill shadow-sm fw-bold">
+                🏠 Home
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function downloadPDF() {
+        const element = document.getElementById('resultCard');
+        html2pdf(element, {
+            margin:       1,
+            filename:     'AOQRWE_Result.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        });
+    }
+</script>
+{% endblock %}

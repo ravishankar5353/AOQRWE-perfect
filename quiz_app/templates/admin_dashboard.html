@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row fade-in mt-4">
+    <div class="col-md-3">
+        <div class="list-group shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action fw-bold active py-3 border-0 border-bottom"><i class="bi bi-speedometer2 text-light me-2"></i>Dashboard</a>
+            <a href="{{ url_for('admin_subjects') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-book me-2 text-muted"></i>Subjects</a>
+            <a href="{{ url_for('admin_questions') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-ui-checks me-2 text-muted"></i>Questions</a>
+            <a href="{{ url_for('admin_students') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-people me-2 text-muted"></i>Students</a>
+            <a href="{{ url_for('admin_results') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0"><i class="bi bi-bar-chart me-2 text-muted"></i>Results</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm glass-card rounded-4 p-4 text-center">
+                    <i class="bi bi-people-fill text-primary display-5 mb-2"></i>
+                    <h2 class="fw-bold m-0 text-dark">{{ stats.total_students }}</h2>
+                    <p class="text-muted small m-0 fw-medium text-uppercase mt-1">Students</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm glass-card rounded-4 p-4 text-center">
+                    <i class="bi bi-ui-checks-grid text-success display-5 mb-2"></i>
+                    <h2 class="fw-bold m-0 text-dark">{{ stats.total_questions }}</h2>
+                    <p class="text-muted small m-0 fw-medium text-uppercase mt-1">Questions</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm glass-card rounded-4 p-4 text-center">
+                    <i class="bi bi-journal-check text-warning display-5 mb-2"></i>
+                    <h2 class="fw-bold m-0 text-dark">{{ stats.total_exams }}</h2>
+                    <p class="text-muted small m-0 fw-medium text-uppercase mt-1">Exams Taken</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm glass-card rounded-4 p-4 text-center">
+                    <i class="bi bi-graph-up-arrow text-danger display-5 mb-2"></i>
+                    <h2 class="fw-bold m-0 text-dark">{{ stats.avg_score }}%</h2>
+                    <p class="text-muted small m-0 fw-medium text-uppercase mt-1">Avg Score</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 glass-card rounded-4 p-5 text-center">
+            <h4 class="fw-bold text-dark mb-4"><i class="bi bi-pie-chart-fill text-primary me-2"></i> Performance Grades Distribution</h4>
+            {% if stats.total_exams > 0 %}
+            <div class="chart-container d-flex justify-content-center m-auto" style="position: relative; height:350px; width:350px">
+                <canvas id="scoresChart"></canvas>
+            </div>
+            {% else %}
+            <div class="py-5">
+                <i class="bi bi-bar-chart-line text-muted opacity-50 display-1 mb-3 d-block"></i>
+                <h5 class="text-muted">No exams taken yet.</h5>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if({{ stats.total_exams }} > 0) {
+        const ctx = document.getElementById('scoresChart').getContext('2d');
+        const labels = {{ scores_labels | safe }};
+        const dataVals = {{ scores_data | safe }};
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataVals,
+                    backgroundColor: [
+                        '#2fb236',
+                        '#4834d4',
+                        '#f0932b',
+                        '#eb4d4b',
+                        '#00a8ff'
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, font: { family: 'Inter', size: 14 } }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

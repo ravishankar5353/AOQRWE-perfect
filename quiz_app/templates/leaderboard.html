@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center fade-in">
+    <div class="col-md-9 mt-4">
+        
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold" style="color: #f39c12;">🏆 Top Performers</h1>
+            <p class="text-muted">Global Ranking of AOQRWE Quiz Platform</p>
+        </div>
+
+        <div class="table-responsive glass-card p-4 shadow-lg border-0" style="border-radius: 20px;">
+            <table class="table table-hover table-borderless align-middle text-center mb-0">
+                <thead style="background: rgba(0,0,0,0.05);">
+                    <tr class="text-muted fs-6 text-uppercase">
+                        <th class="py-3 rounded-start">Rank</th>
+                        <th class="py-3">Student Name</th>
+                        <th class="py-3">Highest Score</th>
+                        <th class="py-3 rounded-end">Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in leaders %}
+                    <tr class="border-bottom border-light" style="transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='scale(1.01)'" onmouseout="this.style.transform='scale(1)'">
+                        <td class="py-4">
+                            {% if loop.index == 1 %}
+                                <span class="badge bg-warning text-dark rounded-circle p-2 fs-5 shadow-sm">1</span>
+                            {% elif loop.index == 2 %}
+                                <span class="badge bg-secondary rounded-circle p-2 fs-5 shadow-sm">2</span>
+                            {% elif loop.index == 3 %}
+                                <span class="badge rounded-circle p-2 fs-5 shadow-sm" style="background: #cd7f32;">3</span>
+                            {% else %}
+                                <span class="fw-bold text-muted fs-5">#{{ loop.index }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 fw-bold fs-5" style="color: #2d3436;">{{ l.student_name }}</td>
+                        <td class="py-4 fw-bold text-primary fs-5">{{ l.score }}</td>
+                        <td class="py-4">
+                            <span class="badge bg-success rounded-pill px-3 py-2 fs-6 shadow-sm">
+                                {{ l.percentage|round(2) }}%
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {% if not leaders %}
+                    <tr>
+                        <td colspan="4" class="py-5 text-muted fst-italic">No attempts have been recorded yet.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

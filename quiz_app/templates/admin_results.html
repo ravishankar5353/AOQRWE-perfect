@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row fade-in mt-4">
+    <div class="col-md-3">
+        <div class="list-group shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-speedometer2 text-muted me-2"></i>Dashboard</a>
+            <a href="{{ url_for('admin_subjects') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-book me-2 text-muted"></i>Subjects</a>
+            <a href="{{ url_for('admin_questions') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-ui-checks me-2 text-muted"></i>Questions</a>
+            <a href="{{ url_for('admin_students') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-people text-muted me-2"></i>Students</a>
+            <a href="{{ url_for('admin_results') }}" class="list-group-item list-group-item-action active fw-bold py-3 border-0"><i class="bi bi-bar-chart text-light me-2"></i>Results</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card shadow-sm border-0 glass-card rounded-4 p-5">
+            <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-file-earmark-bar-graph-fill text-primary me-2"></i> Official Scorecards</h4>
+            <div class="table-responsive mt-3">
+                <table class="table table-hover align-middle border overflow-hidden rounded">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3 px-3 text-muted border-0">Name</th>
+                            <th class="py-3 px-3 text-muted border-0">Subject Class</th>
+                            <th class="py-3 px-3 text-muted border-0 text-center">Outcome</th>
+                            <th class="py-3 px-3 text-muted border-0">Grade</th>
+                            <th class="py-3 px-3 text-muted border-0 text-end">Evaluated On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in results %}
+                        <tr>
+                            <td class="px-3 border-light fw-bold text-dark"><i class="bi bi-person text-secondary me-1"></i> {{ r.student_name }}</td>
+                            <td class="px-3 border-light"><span class="badge bg-secondary py-1 px-2 border">{{ r.subject_name }}</span></td>
+                            <td class="px-3 border-light text-center">
+                                <div class="progress shadow-sm bg-light" style="height: 20px; border-radius: 10px;">
+                                    <div class="progress-bar fw-bold 
+                                    {% if r.percentage >= 75 %} bg-success
+                                    {% elif r.percentage >= 50 %} bg-warning text-dark
+                                    {% else %} bg-danger
+                                    {% endif %}" 
+                                    role="progressbar" style="width: {{ r.percentage }}%;">{{ r.score }}/{{ r.total }}</div>
+                                </div>
+                            </td>
+                            <td class="px-3 border-light">
+                                <span class="fw-bold
+                                {% if r.grade == 'Fail' %} text-danger
+                                {% elif r.grade == 'A' %} text-success
+                                {% else %} text-warning {% endif %}
+                                ">{{ r.grade }}</span>
+                            </td>
+                            <td class="px-3 border-light text-end text-muted small fw-medium">{{ r.exam_date }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% if not results %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-5 border-light"><i class="bi bi-dash-circle opacity-25 display-1 d-block mb-3"></i>No scoring data recorded yet.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

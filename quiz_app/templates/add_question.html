@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row fade-in mt-4">
+    <div class="col-md-3">
+        <div class="list-group shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+            <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-speedometer2 me-2 text-muted"></i>Dashboard</a>
+            <a href="{{ url_for('admin_subjects') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-book text-muted me-2"></i>Subjects</a>
+            <a href="{{ url_for('admin_questions') }}" class="list-group-item list-group-item-action fw-bold active py-3 border-0 border-bottom"><i class="bi bi-ui-checks text-light me-2"></i>Questions</a>
+            <a href="{{ url_for('admin_students') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0 border-bottom"><i class="bi bi-people me-2 text-muted"></i>Students</a>
+            <a href="{{ url_for('admin_results') }}" class="list-group-item list-group-item-action fw-medium py-3 border-0"><i class="bi bi-bar-chart me-2 text-muted"></i>Results</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card shadow-sm border-0 mb-4 p-5 glass-card rounded-4">
+            <h4 class="fw-bold mb-4" style="color: #6366f1;"><i class="bi bi-magic fs-3"></i> AI-Assisted Auto Generator</h4>
+            <p class="text-muted small mb-4">Select a subject and upload a PDF. We will scan its contents and formulate test questions for your class instantly.</p>
+            <form method="POST" action="{{ url_for('admin_questions') }}" enctype="multipart/form-data" class="bg-primary bg-opacity-10 p-4 border border-primary border-opacity-10 rounded-4">
+                <div class="row g-4 align-items-end">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold small text-primary text-uppercase"><i class="bi bi-bookmark-fill me-1"></i> Subject Line</label>
+                        <select name="subject_id" class="form-select border-0 shadow-sm" required>
+                            {% for sub in subjects %}
+                            <option value="{{ sub.id }}">{{ sub.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label fw-bold small text-primary text-uppercase"><i class="bi bi-file-earmark-pdf-fill me-1"></i> Upload Material</label>
+                        <input type="file" name="pdf_file" class="form-control border-0 shadow-sm" accept=".pdf" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold small text-primary text-uppercase"><i class="bi bi-123 me-1"></i> Quantity</label>
+                        <input type="number" name="num_questions" class="form-control border-0 shadow-sm" value="5" min="1" max="50">
+                    </div>
+                    <div class="col-12 mt-4 text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm fw-bold"><i class="bi bi-cpu-fill me-1"></i> Execute AI Extraction</button>
+                    </div>
+                </div>
+            </form>
+            
+            <hr class="my-5 border-light">
+            
+            <h4 class="fw-bold text-success mb-4"><i class="bi bi-keyboard-fill fs-3 text-success"></i> Manual Configuration</h4>
+            <form method="POST" action="{{ url_for('admin_questions') }}">
+                <div class="row g-4 bg-light p-4 rounded-4 border border-light">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold small text-success text-uppercase">Target Subject</label>
+                        <select name="subject_id" class="form-select shadow-sm border-0" required>
+                            {% for sub in subjects %}
+                            <option value="{{ sub.id }}">{{ sub.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" name="question" class="form-control form-control-lg shadow-sm border-0" placeholder="Type the question prompt here..." required>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text bg-white border-0 fw-bold border-end">A</span>
+                            <input type="text" name="option1" class="form-control border-0" placeholder="Option 1" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text bg-white border-0 fw-bold border-end">B</span>
+                            <input type="text" name="option2" class="form-control border-0" placeholder="Option 2" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text bg-white border-0 fw-bold border-end">C</span>
+                            <input type="text" name="option3" class="form-control border-0" placeholder="Option 3" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text bg-white border-0 fw-bold border-end">D</span>
+                            <input type="text" name="option4" class="form-control border-0" placeholder="Option 4" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <label class="form-label fw-bold small text-success text-uppercase"><i class="bi bi-check-circle-fill me-1"></i> Correct Answer</label>
+                        <input type="text" name="answer" class="form-control shadow-sm border-0" placeholder="Must identically match one of the options above" required>
+                    </div>
+                    <div class="col-md-12">
+                        <textarea class="form-control shadow-sm border-0" name="explanation" rows="3" placeholder="Additional explanation for the review sheet (Optional)"></textarea>
+                    </div>
+                    <div class="col-12 text-end mt-4">
+                        <button type="submit" class="btn btn-success rounded-pill px-5 py-2 shadow-sm fw-bold"><i class="bi bi-cloud-arrow-up-fill me-1"></i> Save Draft to Database</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="card bg-white p-5 rounded-4 shadow-sm border-0">
+            <h4 class="fw-bold mb-4 text-dark"><i class="bi bi-folder2-open text-primary me-2"></i> Registered Question Bank</h4>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3 px-3 text-muted border-0">Subject Class</th>
+                            <th class="py-3 px-3 text-muted border-0 w-50">Prompt Statement</th>
+                            <th class="py-3 px-3 text-muted border-0">Correct Key</th>
+                            <th class="py-3 px-3 text-end text-muted border-0">Management</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for q in questions %}
+                        <tr>
+                            <td class="px-3 border-light"><span class="badge bg-secondary bg-opacity-10 text-secondary border px-2 py-1"><i class="bi bi-tag-fill me-1"></i>{{ q.subject_name }}</span></td>
+                            <td class="px-3 border-light text-dark fw-medium">{{ q.question }}</td>
+                            <td class="px-3 border-light"><span class="text-success fw-bold bg-success bg-opacity-10 px-2 py-1 rounded small"><i class="bi bi-check-lg"></i> {{ q.answer }}</span></td>
+                            <td class="px-3 border-light text-end">
+                                <a href="{{ url_for('delete_question', q_id=q.id) }}" class="btn btn-sm btn-outline-danger fw-bold rounded-pill shadow-sm" onclick="return confirm('Purge this question permanently?');"><i class="bi bi-trash3-fill"></i> Drop</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% if not questions %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-5 border-light"><i class="bi bi-inbox display-6 d-block mb-3 opacity-50"></i>Datastore is empty. Let's add questions.</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

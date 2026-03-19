@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card glass-card p-5 fade-in mt-5 shadow-lg border-0">
+            <h3 class="text-center mb-4 fw-bold" style="color: #6c5ce7;">
+                {% if request.args.get('role') == 'admin' %}Admin Login{% else %}User Login{% endif %}
+            </h3>
+            <form method="POST" action="{{ url_for('login', role=request.args.get('role', 'user')) }}">
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control" id="usernp" placeholder="Username" required>
+                    <label for="usernp">Username</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <!-- Submit -->
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold">Login</button>
+            </form>
+            {% if request.args.get('role') != 'admin' %}
+            <div class="text-center mt-4 pt-3 border-top">
+                <p>New Student? <a href="{{ url_for('register') }}" class="text-decoration-none fw-bold" style="color: #0984e3;">Register here</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+Create a full-stack web application named "AOQRWE" with the following requirements:
+
+1. **Interface & Branding**
+   - Display the name "AOQRWE" prominently at the top of every page.
+   - Provide login/signup options at the top navigation bar.
+   - Support multiple login roles: **Student** and **Admin**.
+
+2. **Authentication**
+   - If a student is not logged in, show a **Student Register** option.
+   - Store all user data using **browser-based storage (LocalStorage/IndexedDB)** under a logical namespace `AOQRWE`.
+   - Ensure secure login and registration flows with role-based access.
+
+3. **Student Dashboard**
+   - After login, students can:
+     - Launch selective exams from a list.
+     - Play quizzes with each question having a **30-second time limit**.
+     - While attempting the quiz, display a panel showing:
+       - Number of answered questions (checkbox ticked).
+       - Number of unanswered questions (checkbox unticked).
+     - After finishing, show:
+       - Result summary.
+       - Review of questions and answers.
+       - Progress evaluation.
+       - Option to **export results as PDF**.
+
+4. **Admin Dashboard**
+   - Admins can:
+     - Create and manage multiple subjects.
+     - Add questions to subject-specific question banks.
+     - View statistics:
+       - Number of registered students.
+       - Number of students who attempted exams.
+     - Manage quizzes and monitor student performance.
+
+5. **Quiz Evaluation**
+   - Provide a **review quiz evaluation page** after submission.
+   - Show correct/incorrect answers with explanations.
+   - Allow exporting the evaluation report as PDF.
+
+6. **Data Storage**
+   - Use **LocalStorage or IndexedDB** instead of MySQL/PHP.
+   - Data structures required:
+     - `users` (id, name, email, password, role [student/admin]).
+     - `subjects` (id, subject_name).
+     - `questions` (id, subject_id, question_text, options, correct_answer).
+     - `results` (id, user_id, subject_id, score, timestamp).
+     - `attempts` (id, user_id, question_id, selected_answer, is_correct).
+
+7. **UI/UX**
+   - Clean, professional interface with clear separation of Student and Admin dashboards.
+   - Student quiz interface must show **answered/unanswered status** live.
+   - Admin dashboard must have easy navigation for adding subjects and questions.
+
+Deliverables:
+- A complete web application with the above features.
+- Frontend only: HTML, CSS, JavaScript.
+- Storage: LocalStorage/IndexedDB.
+- Export functionality: Generate PDF reports for results and evaluations.
+
+-------MANUAL TEXTS-----------
+make changes as give login/signup option under create the multiple logins for individual user and admin dont keep any credentials under that  admin:- give the last manage database system option  to give all read/write/update/delete permissions and in user dashboard:- same design like admin dashboard give only option to view subjects and select the subject and write the sunject quiz give the box inside how many answerd unswerd how many no.of questions available in that display that content for each and every question give the options under save answer,save and next,final question after ask a pop are you want to submit the quiz then display the result if the student did  multiple subjects quizes shows that user dashboard that data and provide the result  pdf . give  the user option them  acces to modify password  by reference their email and anaylize  keep no.of attempts and make if the student get 40% of marks only he will pass the subject other wise he fails and again display them try again and give them 2 attempts per day if usere fails continously  make all above changes after that run my final project .
+-------2ND MANUAL TEXTS-----
+Modify interface:- first only AOQRWE under start🚀 option upside on header shows login/signup  after that   click on start option shows the multiple dashboards admin/user dashboards seperately remove the option for user login page as modify password ,show only register ,modify password option shows in user dasboard

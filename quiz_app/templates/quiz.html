@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<input type="hidden" id="questions_data" value="{{ questions }}">
+<input type="hidden" id="subject_id" value="{{ subject_id }}">
+<div class="row fade-in">
+    <!-- Sidebar for Status Box -->
+    <div class="col-md-3 mb-4">
+        <div class="card glass-card border-0 shadow-sm p-4 text-center">
+            <h5 class="fw-bold text-dark mb-3">Time Left</h5>
+            <h2 id="timerDisplay" class="display-5 text-danger fw-bold">Loading..</h2>
+            <hr class="my-4">
+            <h5 class="fw-bold text-dark mb-3">Status Box</h5>
+            <div id="statusBox" class="d-flex flex-wrap justify-content-center gap-2">
+                <!-- Generated via JS -->
+            </div>
+            <div class="mt-4 d-flex justify-content-around text-start small">
+                <div><span class="badge bg-success">&nbsp;&nbsp;</span> Answered</div>
+                <div><span class="badge bg-secondary">&nbsp;&nbsp;</span> Unanswered</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Question Box -->
+    <div class="col-md-9">
+        <div class="card glass-card border-0 shadow-lg p-5 text-center" style="min-height: 50vh;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="badge bg-primary fs-6">{{ subject.name }}</span>
+                <span class="fw-bold fs-5 text-muted" id="questionCounter">Question 1/X</span>
+            </div>
+            
+            <h3 id="questionText" class="fw-bold mb-5 mt-3" style="color: #2d3436; line-height: 1.5;">Loading...</h3>
+            
+            <div id="optionsContainer" class="d-grid gap-3 text-start px-md-5">
+                <!-- Generated via JS -->
+            </div>
+            
+            <div class="d-flex justify-content-between mt-5">
+                <button id="prevBtn" class="btn btn-outline-dark px-4 py-2 fs-5 fw-bold shadow-sm rounded-pill" onclick="prevQuestion()" style="display: none;">
+                    Previous
+                </button>
+                <button id="nextBtn" class="btn btn-primary px-4 py-2 fs-5 fw-bold shadow-sm rounded-pill ms-auto" onclick="saveAndNext()">
+                    Save & Next
+                </button>
+            </div>
+            
+            <div id="submitBtnContainer" class="mt-5" style="display: none;">
+                <button class="btn btn-danger btn-lg px-5 py-3 fw-bold shadow-lg rounded-pill" onclick="submitExam()">
+                    Submit Final Quiz
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Submit DB Confirmation -->
+<div class="modal fade" id="submitModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content glass-card border-0 shadow-lg">
+      <div class="modal-body text-center p-5">
+        <h3 class="fw-bold mb-4 text-danger">Submit Exam?</h3>
+        <p class="mb-4 fs-5">Are you sure you want to submit? You cannot return to the exam once submitted.</p>
+        <div class="form-check d-inline-block text-start mb-4 bg-light p-3 rounded rounded-3">
+            <input class="form-check-input border-dark ms-1 mt-1" type="checkbox" id="confirmCheck">
+            <label class="form-check-label fw-bold ms-3" for="confirmCheck">
+                Yes, I confirm my submission.
+            </label>
+        </div>
+        <div>
+            <button type="button" class="btn btn-outline-dark px-4 py-2 rounded-pill fw-bold" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger px-4 py-2 rounded-pill ms-2 fw-bold" onclick="confirmSubmit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

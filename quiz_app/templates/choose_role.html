@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-5 pt-3 fade-in">
+    <div class="col-md-5 col-lg-4 mb-4">
+        <div class="card glass-card p-5 text-center border-0 border-top border-danger border-4 h-100 transition-all hover-shadow bg-white rounded-4 shadow-sm">
+            <div class="bg-danger bg-opacity-10 rounded-circle text-danger mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-person-badge fs-1"></i>
+            </div>
+            <h3 class="fw-bold mb-2 text-dark">Admin Access</h3>
+            <p class="text-muted small mb-4">Manage the platform, students, and exams.</p>
+            <a href="{{ url_for('login', role='admin') }}" class="btn btn-danger w-100 py-3 rounded-pill fw-bold mt-auto shadow-sm">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Controller Login
+            </a>
+        </div>
+    </div>
+    <div class="col-md-5 col-lg-4 mb-4">
+        <div class="card glass-card p-5 text-center border-0 border-top border-primary border-4 h-100 transition-all hover-shadow bg-white rounded-4 shadow-sm">
+            <div class="bg-primary bg-opacity-10 rounded-circle text-primary mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <i class="bi bi-person fs-1"></i>
+            </div>
+            <h3 class="fw-bold mb-2 text-dark">Student Access</h3>
+            <p class="text-muted small mb-4">Access your assigned quizzes and results.</p>
+            <a href="{{ url_for('login', role='user') }}" class="btn btn-primary w-100 py-3 rounded-pill fw-bold mt-auto shadow-sm">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Student Login
+            </a>
+        </div>
+    </div>
+</div>
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.3s ease;
+    }
+</style>
+{% endblock %}
