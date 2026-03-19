@@ -46,9 +46,5 @@ Welcome to the **AOQRWE Online Quiz Platform**, a sophisticated, fully functiona
    ```
    *Navigate to `http://127.0.0.1:5000/` in your browser.*
 
-## 🔒 Default Admin Credentials
-- **Username:** `admin`
-- **Password:** `admin123`
-
----
+#
 *Built with ❤️ for educational environments.*
